@@ -55,4 +55,12 @@ SOFTWARE.
 
 ## Authors
 
-The above program is a creation of Florian Dima - inf2021044@ionio.gr , Nikolaos Balatos - inf2021151@ionio.gr & Spyridon Eftychios Kokotos - skokotos@ionio.gr / inf2021098@ionio.gr and you can use it for your personal projects or further develop it as long as you always give credit to the creators.
+The above program is a creation of:
+
+| Name                  | Email                        |
+|:---------------------:|:----------------------------:|
+| Florian Dima          | inf2021044@ionio.gr          |
+| Nikolaos Balatos      | inf2021151@ionio.gr          |
+| Spyridon Eftychios Kokotos | skokotos@ionio.gr / inf2021098@ionio.gr |
+
+and you can use it for your personal projects or further develop it as long as you always give credit to the creators.
