@@ -2,9 +2,9 @@
 
 Streamlit Application using Python
 
-# Usage
+## Usage
 
-# Table of Contents
+## Table of Contents
 <!-- vim-markdown-toc Marked -->
 
 * [Features](#features)
@@ -16,3 +16,18 @@ Streamlit Application using Python
 * [Authors](#authors)
 
 <!-- vim-markdown-toc -->
+
+## Features
+
+## Requirements
+
+## Installation
+
+## Basic Usage
+
+## Reporting Bugs
+
+When a bug is found, please do report it by [opening an issue at github](https://github.com/Brigade-01/Software-Engineering/issues), as already stated above.
+
+## License
+
