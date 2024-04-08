@@ -1,36 +1,3 @@
-# Software-Engineering
-
-Streamlit Application using Python
-
-## Usage
-
-## Table of Contents
-<!-- vim-markdown-toc Marked -->
-
-* [Features](#features)
-* [Requirements](#requirements)
-* [Installation](#installation)
-* [Basic Usage](#basic-usage)
-* [Reporting Bugs](#reporting-bugs)
-* [License](#license)
-* [Authors](#authors)
-
-<!-- vim-markdown-toc -->
-
-## Features
-
-## Requirements
-
-## Installation
-
-## Basic Usage
-
-## Reporting Bugs
-
-When a bug is found, please do report it by [opening an issue at github](https://github.com/Brigade-01/Software-Engineering/issues), as already stated above.
-
-## License
-
 MIT License
 
 Copyright (c) 2024 Brigade-01
@@ -52,7 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
-## Authors
-
-The above program is a creation of Florian Dima - inf2021044@ionio.gr , Nikolaos Balatos - inf2021151@ionio.gr & Spyridon Eftychios Kokotos - skokotos@ionio.gr / inf2021098@ionio.gr and you can use it for your personal projects or further develop it as long as you always give credit to the creators.
