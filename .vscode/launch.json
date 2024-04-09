@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "lldb",
+      "request": "launch",
+      "args": [],
+      "cwd": "/Users/nickbalatos/Downloads/c_coding",
+      "program": "/Users/nickbalatos/Downloads/c_coding/build/Debug/outDebug"
+    }
+  ]
+}

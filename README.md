@@ -4,7 +4,7 @@ Streamlit Application using Python
 
 ## Usage
 
-## Table of Contents
+## Table of    Contents
 <!-- vim-markdown-toc Marked -->
 
 * [Features](#features)
