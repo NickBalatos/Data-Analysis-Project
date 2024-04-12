@@ -1,7 +1,8 @@
 Streamlit==1.33.0
 pandas==2.2.2
+pandas-stubs==2.2.1.240316
 numpy==1.26.4
-matplotlib==3.4.3
+matplotlib==3.8.4
 Pillow==10.3.0
 st_pages==0.4.5
 scikit-learn==1.4.2
