@@ -6,3 +6,4 @@ matplotlib==3.8.4
 Pillow==10.3.0
 st_pages==0.4.5
 scikit-learn==1.4.2
+kneed==0.8.5 
