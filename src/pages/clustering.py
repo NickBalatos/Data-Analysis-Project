@@ -22,7 +22,6 @@ def get_data(x, y, data):
       data.extend(list(zip(x, y)))
 
 
-
 def interface():
       x = []
       y = []
@@ -53,6 +52,7 @@ def interface():
             st.write("Run the second algorithm")
             # funtion_sec_algorithm()
 
+
 def recommended_clusters(data):
       K_range = range(1, 11)
       sse = []
@@ -64,24 +64,22 @@ def recommended_clusters(data):
       optimal_k = knee_locator.knee
       return f'Βέλτιστος αριθμός ομάδων(clusters): {optimal_k}'
 
-def k_means(clusters, data, x, y):
 
+def k_means(clusters, data, x, y):
       kmeans = KMeans(n_clusters= clusters)
       labels = kmeans.fit_predict(data)
-
-
       # plt.scatter(x, y, c=labels)
       fig, ax = plt.subplots()
       sc = ax.scatter(x, y, c=labels)
       st.pyplot(fig) 
-
-
       # arr = np.random.normal(1, 1, size=100)
       # fig, ax = plt.subplots()
       # ax.hist(arr, bins=20)
 
       # st.pyplot(fig)
 
+
+# General main function of the file should call all the necessary function
 interface()
 
 
