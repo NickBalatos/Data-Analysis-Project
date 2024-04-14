@@ -3,6 +3,8 @@ from st_pages import show_pages_from_config, add_page_title
 import numpy as np# for testing reasons
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
+from sklearn.cluster import AgglomerativeClustering
+from scipy.cluster.hierarchy import dendrogram, linkage
 from kneed import KneeLocator
 
 # Either this or add_indentation() MUST be called on each page in your
@@ -15,11 +17,15 @@ def get_data(x, y, data):
       local_x = np.random.uniform(1, 10, 100) # rows from the csv file
       local_y = np.random.uniform(1, 10, 100) # the target 
 
+      local_x = [4, 5, 10, 4, 3, 11, 14 , 6, 10, 12]
+      local_y = [21, 19, 24, 17, 16, 25, 24, 22, 21, 21]
+
       
       # Append each item to the originally passed lists
       x.extend(local_x)
       y.extend(local_y)
       data.extend(list(zip(x, y)))
+
 
 
 def interface():
@@ -41,16 +47,17 @@ def interface():
             st.write("Run K-Means")
             k_means(clusters, data, x, y)
 
-      st.title("Second clustering algorithm")
+      st.title("Hierarchical Clustering (Agglomerative Clustering)")
       st.write(
             """
-            Lorem ispum bla bla bla
+            Ο αλγόριθμος Hierarchical Clustering είναι μια μέθοδος ομαδοποίησης δεδομένων που χτίζει ιεραρχικά συστήματα ομάδων.
+            Ο Hierarchical Clustering ξεκινάει θεωρώντας κάθε σημείο δεδομένων ως μια ξεχωριστή ομάδα και στη συνέχεια, επαναληπτικά ενώνει τις πιο κοντινές ομάδες μέχρι να επιτευχθεί μια μόνο ομάδα ή ο στόχος αριθμός των ομάδων.
+            Υπάρχουν δύο κύριοι τύποι: Agglomerative (συγκεντρωτικό), που ξεκινά με μικρές ομάδες και τις συνδυάζει, και Divisive (διαιρετικό), που ξεκινά με μία ολική ομάδα και τη διαιρεί.
             """
       )
-      st.number_input(label="Algorithm parameter", min_value=1, max_value=5)
-      if st.button("Run", key="secalgo"):
-            st.write("Run the second algorithm")
-            # funtion_sec_algorithm()
+      clusters = st.number_input(label="Algorithm parameter", min_value=1, max_value=5)
+      if st.button("Run", key="hier_clust"):
+            hierarchical_clustering(clusters, data, x, y)
 
 
 def recommended_clusters(data):
@@ -71,12 +78,30 @@ def k_means(clusters, data, x, y):
       # plt.scatter(x, y, c=labels)
       fig, ax = plt.subplots()
       sc = ax.scatter(x, y, c=labels)
+      ax.set_title("Scatterplot")
       st.pyplot(fig) 
       # arr = np.random.normal(1, 1, size=100)
       # fig, ax = plt.subplots()
       # ax.hist(arr, bins=20)
 
       # st.pyplot(fig)
+
+
+def hierarchical_clustering(clusters, data, x, y):
+      linkage_data = linkage(data, method='ward', metric='euclidean')
+      hierarchical_cluster = AgglomerativeClustering(n_clusters=clusters, metric='euclidean', linkage='ward')
+      labels = hierarchical_cluster.fit_predict(data)
+      # Plot dendogram
+      fig, ax = plt.subplots()
+      ax.set_title("Dendogram")
+      dendrogram(linkage_data)
+      st.pyplot(fig)
+      # Plot the clusters in a scatter plot
+      fig2, ax2 = plt.subplots()
+      ax2.set_title("Scatterplot")
+      ax2.scatter(x, y, c=labels)
+      st.pyplot(fig2)
+
 
 
 # General main function of the file should call all the necessary function
