@@ -1,14 +1,18 @@
 import streamlit as st
 from st_pages import show_pages_from_config, add_page_title
 import numpy as np# for testing reasons
+import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 from sklearn.cluster import AgglomerativeClustering
 from scipy.cluster.hierarchy import dendrogram, linkage
-
-from kneed import KneeLocator
+from sklearn.decomposition import PCA
 import random
 import string
+
+import csv
+
+
 
 # Either this or add_indentation() MUST be called on each page in your
 # app to add indendation in the sidebar
@@ -36,7 +40,20 @@ def interface():
       data = []
       get_data(x, y, data)
 
+      
 
+      dataset = pd.read_csv("data.csv")
+      # Get all the features columns except the class
+      features = list(dataset.columns)[:-2]
+
+      # Get the features data
+      data = dataset[features]
+      # Class
+      y = list(dataset.columns)[len(dataset.columns)-1]
+
+      x = 0
+      y = 0
+      #----------------------------K MEANS--------------------------------
       st.title("K-Means")
       st.write(
             """
@@ -45,13 +62,13 @@ def interface():
             Χρησιμοποιείται ευρέως για την ανίχνευση μοτίβων, την ανάλυση ομάδων και ως προπαρασκευαστικό βήμα για άλλες αλγοριθμικές εφαρμογές.
             """
       )
-      st.write(recommended_clusters(data))
-      clusters = st.number_input(label="Αριθμός ομάδων", min_value=1, max_value=5)
+      clusters = st.number_input(label="Αριθμός ομάδων", min_value=1, max_value=5, key= "num_kmeans")
       if st.button("Run", key="kmeans"):
             st.write("Run K-Means")
             k_means(clusters, data, x, y)
 
 
+      #--------------------HIERARCHIAL CLUSTERING-------------------------
       st.title("Hierarchical Clustering (Agglomerative Clustering)")
       st.write(
             """
@@ -60,43 +77,38 @@ def interface():
             Υπάρχουν δύο κύριοι τύποι: Agglomerative (συγκεντρωτικό), που ξεκινά με μικρές ομάδες και τις συνδυάζει, και Divisive (διαιρετικό), που ξεκινά με μία ολική ομάδα και τη διαιρεί.
             """
       )
-      clusters = st.number_input(label="Algorithm parameter", min_value=1, max_value=5)
+      clusters = st.number_input(label="Αριθμός ομάδων", min_value=1, max_value=5, key= "num_hier")
       if st.button("Run", key="hier_clust"):
-            hierarchical_clustering(clusters, data, x, y)
+            hierarchical_clustering(clusters, data, x, y)   
 
 
-
-def recommended_clusters(data):
-      K_range = range(1, 11)
-      sse = []
-      for i in K_range:
-            kmeans = KMeans(n_clusters=i)
-            kmeans.fit(data)
-            sse.append(kmeans.inertia_)
-      knee_locator = KneeLocator(K_range, sse, curve = "convex", direction = "decreasing")
-      optimal_k = knee_locator.knee
-      return f'Βέλτιστος αριθμός ομάδων(clusters): {optimal_k}'
+      #-------------------RESULTS AND COMPRARISON--------------------------
+      st.title("Results and Comprarison")
+      st.header("K-Means Results")
+      st.header("Hierarchial Clustering Results")
+      st.header("Comparison")
 
 
 def k_means(clusters, data, x, y):
+      # Run K Means
       kmeans = KMeans(n_clusters= clusters)
       labels = kmeans.fit_predict(data)
-      # plt.scatter(x, y, c=labels)
+      # Appling dimensional reduction in order to plot clusters from multi-feature dataset
+      pca = PCA(2)
+      data_2d = pca.fit_transform(data)
+      # Plotting
       fig, ax = plt.subplots()
-      sc = ax.scatter(x, y, c=labels)
-      ax.set_title("Scatterplot")
-      st.pyplot(fig) 
-      # arr = np.random.normal(1, 1, size=100)
-      # fig, ax = plt.subplots()
-      # ax.hist(arr, bins=20)
-
-      # st.pyplot(fig)
-
+      sc = ax.scatter(data_2d[:, 0], data_2d[:, 1], c=labels)
+      st.pyplot(fig)
 
 def hierarchical_clustering(clusters, data, x, y):
+      # Run Hierarchial Clustering
       linkage_data = linkage(data, method='ward', metric='euclidean')
       hierarchical_cluster = AgglomerativeClustering(n_clusters=clusters, metric='euclidean', linkage='ward')
       labels = hierarchical_cluster.fit_predict(data)
+      # Appling dimensional reduction in order to plot clusters from multi-feature dataset
+      pca = PCA(2)
+      data_2d = pca.fit_transform(data)
       # Plot dendogram
       fig, ax = plt.subplots()
       ax.set_title("Dendogram")
@@ -105,7 +117,7 @@ def hierarchical_clustering(clusters, data, x, y):
       # Plot the clusters in a scatter plot
       fig2, ax2 = plt.subplots()
       ax2.set_title("Scatterplot")
-      ax2.scatter(x, y, c=labels)
+      ax2.scatter(data_2d[:, 0], data_2d[:, 1], c=labels)
       st.pyplot(fig2)
 
 
