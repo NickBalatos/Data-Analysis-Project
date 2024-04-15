@@ -32,8 +32,7 @@ def main():
             return
         
         success_message = st.success("Τα δεδομένα φορτώθηκαν με επιτυχία!")
-        time.sleep(7)
-        success_message.empty()
+        
         # Saving uploaded data for usage on the rest of the tabs
         st.session_state.data = data
     
