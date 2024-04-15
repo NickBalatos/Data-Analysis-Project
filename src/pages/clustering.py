@@ -5,7 +5,10 @@ import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 from sklearn.cluster import AgglomerativeClustering
 from scipy.cluster.hierarchy import dendrogram, linkage
+
 from kneed import KneeLocator
+import random
+import string
 
 # Either this or add_indentation() MUST be called on each page in your
 # app to add indendation in the sidebar
@@ -27,12 +30,13 @@ def get_data(x, y, data):
       data.extend(list(zip(x, y)))
 
 
-
 def interface():
       x = []
       y = []
       data = []
       get_data(x, y, data)
+
+
       st.title("K-Means")
       st.write(
             """
@@ -47,6 +51,7 @@ def interface():
             st.write("Run K-Means")
             k_means(clusters, data, x, y)
 
+
       st.title("Hierarchical Clustering (Agglomerative Clustering)")
       st.write(
             """
@@ -58,6 +63,7 @@ def interface():
       clusters = st.number_input(label="Algorithm parameter", min_value=1, max_value=5)
       if st.button("Run", key="hier_clust"):
             hierarchical_clustering(clusters, data, x, y)
+
 
 
 def recommended_clusters(data):
