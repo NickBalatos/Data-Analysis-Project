@@ -12,6 +12,9 @@ from sklearn.metrics import accuracy_score, confusion_matrix, precision_score, r
 from sklearn.model_selection import RandomizedSearchCV, train_test_split
 from scipy.stats import randint
 from sklearn.tree import plot_tree
+from sklearn.ensemble import GradientBoostingRegressor
+from scipy.stats import uniform as sp_randFloat
+from scipy.stats import randint as sp_randInt
 
 # Modelling (SVC Classifier)
 
