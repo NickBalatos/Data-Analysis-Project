@@ -5,7 +5,7 @@ from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 import matplotlib.pyplot as plt
 import numpy as np
-
+import seaborn as sns
 # Either this or add_indentation() MUST be called on each page in your
 # app to add indendation in the sidebar
 add_page_title()
@@ -53,6 +53,22 @@ def main():
     plt.ylabel('Component 2')
     st.pyplot(plt)
 
+    # EDA Diagrams
+    #st.header("Διαγράμματα EDA")
+    #st.subheader("Box Plot")
+    #plt.figure(figsize=(10, 6))
+    #sns.boxplot(data=data)
+    #st.pyplot(plt)
+
+    # Διάγραμμα διασποράς
+    #st.subheader("Διάγραμμα Διασποράς")
+    #sns.pairplot(data)
+    #st.pyplot(plt)
+
+    #st.subheader("Ιστόγραμμα")
+    #plt.figure(figsize=(10, 6))
+    #sns.histplot(data)
+    #st.pyplot(plt)
 
 if __name__ == "__main__":
     main()
