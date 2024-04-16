@@ -67,7 +67,7 @@ def interface():
             """
       )
       clusters = st.number_input(label="Αριθμός ομάδων", min_value=1, max_value=5, key= "num_kmeans")
-      st.button("Run", key="kmeans", on_click= k_means(clusters, data, x, y, fig_kmeans))
+      st.button("Run", key="kmeans")
             
 
 
@@ -86,17 +86,14 @@ def interface():
             fig_hierar = None
             
       #-------------------RESULTS AND COMPRARISON--------------------------
-      asyncio.run(results(fig_kmeans))
+      st.title("Results and Comprarison")
+      if "kmeans" in st.session_state and st.session_state.kmeans:
+            k_means(clusters, data, x, y)
       
 
-async def results(fig):
-      st.title("Results and Comprarison")
-      st.pyplot(fig)
 
 
-
-
-def k_means(clusters, data, x, y, fig_plot):
+def k_means(clusters, data, x, y):
       # Run K Means
       kmeans = KMeans(n_clusters= clusters)
       labels = kmeans.fit_predict(data)
@@ -109,8 +106,7 @@ def k_means(clusters, data, x, y, fig_plot):
       # Plotting
       fig, ax = plt.subplots()
       sc = ax.scatter(data_2d[:, 0], data_2d[:, 1], c=labels)
-      fig_plot = fig
-      # st.pyplot(fig)
+      st.pyplot(fig)
 
 def hierarchical_clustering(clusters, data, x, y):
       # Run Hierarchial Clustering
