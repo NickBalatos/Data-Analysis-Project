@@ -66,8 +66,8 @@ def interface():
             Χρησιμοποιείται ευρέως για την ανίχνευση μοτίβων, την ανάλυση ομάδων και ως προπαρασκευαστικό βήμα για άλλες αλγοριθμικές εφαρμογές.
             """
       )
-      clusters = st.number_input(label="Αριθμός ομάδων", min_value=1, max_value=5, key= "num_kmeans")
-      st.button("Run", key="kmeans", on_click= k_means(clusters, data, x, y, fig_kmeans))
+      kmeans_clusters = st.number_input(label="Αριθμός ομάδων", min_value=1, max_value=5, key= "num_kmeans")
+      st.button("Run", key="kmeans")
             
 
 
@@ -80,37 +80,39 @@ def interface():
             Υπάρχουν δύο κύριοι τύποι: Agglomerative (συγκεντρωτικό), που ξεκινά με μικρές ομάδες και τις συνδυάζει, και Divisive (διαιρετικό), που ξεκινά με μία ολική ομάδα και τη διαιρεί.
             """
       )
-      clusters = st.number_input(label="Αριθμός ομάδων", min_value=1, max_value=5, key= "num_hier")
-      if st.button("Run", key="hier_clust"):
-            hierarchical_clustering(clusters, data, x, y)   
-            fig_hierar = None
+      heirar_clusters = st.number_input(label="Αριθμός ομάδων", min_value=1, max_value=5, key= "num_hier")
+      st.button("Run", key="hier_clust")
             
       #-------------------RESULTS AND COMPRARISON--------------------------
-      asyncio.run(results(fig_kmeans))
+      st.title("Results and Comprarison")
+      st.header("K-Means Results")
+      if "kmeans" in st.session_state and st.session_state.kmeans:
+            k_means(kmeans_clusters, data, x, y)
+      st.header("Hierarchical Clustering")
+      st.write("Agglomerative Clustering")
+      if "hier_clust" in st.session_state and st.session_state.hier_clust:
+            hierarchical_clustering(heirar_clusters, data, x, y)
       
 
-async def results(fig):
-      st.title("Results and Comprarison")
-      st.pyplot(fig)
 
 
-
-
-def k_means(clusters, data, x, y, fig_plot):
+def k_means(clusters, data, x, y):
+      print(clusters)
       # Run K Means
       kmeans = KMeans(n_clusters= clusters)
       labels = kmeans.fit_predict(data)
       # Appling dimensional reduction in order to plot clusters from multi-feature dataset
       pca = PCA(2)
       data_2d = pca.fit_transform(data)
-
+      
       plotted_data = data_2d
       plotted_labels = labels      
       # Plotting
       fig, ax = plt.subplots()
       sc = ax.scatter(data_2d[:, 0], data_2d[:, 1], c=labels)
-      fig_plot = fig
-      # st.pyplot(fig)
+      st.pyplot(fig)
+      st.write("Results mpla mpla")
+
 
 def hierarchical_clustering(clusters, data, x, y):
       # Run Hierarchial Clustering
