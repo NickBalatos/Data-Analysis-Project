@@ -1,17 +1,14 @@
 from st_pages import show_pages_from_config, add_page_title
-
-# Either this or add_indentation() MUST be called on each page in your
-# app to add indendation in the sidebar
-add_page_title()
-
 import streamlit as st
 import pandas as pd
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 import matplotlib.pyplot as plt
 import numpy as np
-import seaborn as sns
 
+# Either this or add_indentation() MUST be called on each page in your
+# app to add indendation in the sidebar
+add_page_title()
 
 def main():
     
@@ -39,8 +36,8 @@ def main():
     st.pyplot(plt)
     
     # Converting non-numeric data to NaN
-    numeric_data = data.apply(pd.to_numeric, errors='coerce')
-    # Αφαίρεση των γραμμών με NaN
+    numeric_data = data.select_dtypes(include=[np.number])
+    # Droppng NaN collumns
     numeric_data = numeric_data.dropna()
 
     # Executing t-SNE
@@ -55,16 +52,6 @@ def main():
     plt.xlabel('Component 1')
     plt.ylabel('Component 2')
     st.pyplot(plt)
-
-    # EDA Diagrams
-    #st.header("Διαγράμματα EDA")
-    #st.subheader("Box Plot")
-    #st.write(sns.boxplot(data=data))
-    # Διάγραμμα διασποράς
-    #st.subheader("Διάγραμμα Διασποράς")
-    #st.write(sns.pairplot(data))
-
-
 
 
 if __name__ == "__main__":
