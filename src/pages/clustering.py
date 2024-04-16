@@ -7,8 +7,10 @@ from sklearn.cluster import KMeans
 from sklearn.cluster import AgglomerativeClustering
 from scipy.cluster.hierarchy import dendrogram, linkage
 from sklearn.decomposition import PCA
-import random
-import string
+
+
+import asyncio
+
 
 import csv
 
@@ -51,6 +53,8 @@ def interface():
       # Class
       y = list(dataset.columns)[len(dataset.columns)-1]
 
+      fig_kmeans = None
+
       x = 0
       y = 0
       #----------------------------K MEANS--------------------------------
@@ -63,9 +67,8 @@ def interface():
             """
       )
       clusters = st.number_input(label="Αριθμός ομάδων", min_value=1, max_value=5, key= "num_kmeans")
-      if st.button("Run", key="kmeans"):
-            st.write("Run K-Means")
-            k_means(clusters, data, x, y)
+      st.button("Run", key="kmeans", on_click= k_means(clusters, data, x, y, fig_kmeans))
+            
 
 
       #--------------------HIERARCHIAL CLUSTERING-------------------------
@@ -80,26 +83,34 @@ def interface():
       clusters = st.number_input(label="Αριθμός ομάδων", min_value=1, max_value=5, key= "num_hier")
       if st.button("Run", key="hier_clust"):
             hierarchical_clustering(clusters, data, x, y)   
-
-
+            fig_hierar = None
+            
       #-------------------RESULTS AND COMPRARISON--------------------------
+      asyncio.run(results(fig_kmeans))
+      
+
+async def results(fig):
       st.title("Results and Comprarison")
-      st.header("K-Means Results")
-      st.header("Hierarchial Clustering Results")
-      st.header("Comparison")
+      st.pyplot(fig)
 
 
-def k_means(clusters, data, x, y):
+
+
+def k_means(clusters, data, x, y, fig_plot):
       # Run K Means
       kmeans = KMeans(n_clusters= clusters)
       labels = kmeans.fit_predict(data)
       # Appling dimensional reduction in order to plot clusters from multi-feature dataset
       pca = PCA(2)
       data_2d = pca.fit_transform(data)
+
+      plotted_data = data_2d
+      plotted_labels = labels      
       # Plotting
       fig, ax = plt.subplots()
       sc = ax.scatter(data_2d[:, 0], data_2d[:, 1], c=labels)
-      st.pyplot(fig)
+      fig_plot = fig
+      # st.pyplot(fig)
 
 def hierarchical_clustering(clusters, data, x, y):
       # Run Hierarchial Clustering
