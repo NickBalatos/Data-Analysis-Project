@@ -12,7 +12,7 @@ add_page_title()
 
 def main():
     
-   # Checking for data in session state
+   # Checking for data in session state-------------
     if 'data' not in st.session_state:
         st.error("Δεν υπάρχουν δεδομένα. Φορτώστε αρχείο CSV ή Excel στο Home Tab.")
         return
@@ -21,7 +21,7 @@ def main():
     st.write("Τα φορτωμένα δεδομένα:")
     st.write(data)
     
-    # Executing PCA
+    # Executing PCA-------------
     st.header("Αλγόριθμοι Μείωσης Διάστασης") 
     st.header("PCA")
     st.write("Ο αλγόριθμος μείωσης διάστασης PCA (Principal Component Analysis) είναι ένας από τους πιο δημοφιλείς και ευρέως χρησιμοποιούμενους αλγορίθμους στον χώρο της μηχανικής μάθησης και της ανάλυσης δεδομένων. Ο στόχος του PCA είναι η μείωση της διάστασης των δεδομένων, διατηρώντας ταυτόχρονα τη μεγαλύτερη δυνατή ποσότητα πληροφορίας. Ο PCA λειτουργεί με την εκτίμηση των κύριων συνιστωσών (principal components) των δεδομένων, οι οποίες είναι γραμμικοί συνδυασμοί των αρχικών χαρακτηριστικών. Οι κύριες συνιστώσες ταξινομούνται με βάση τη διακύμανση των δεδομένων, με την πρώτη κύρια συνιστώσα να περιέχει τη μεγαλύτερη διακύμανση, η δεύτερη τη δεύτερη μεγαλύτερη, και ούτω καθεξής.")
@@ -35,12 +35,12 @@ def main():
     plt.ylabel('Component 2')
     st.pyplot(plt)
     
-    # Converting non-numeric data to NaN
+    # Converting non-numeric data to NaN-------------
     numeric_data = data.select_dtypes(include=[np.number])
     # Droppng NaN collumns
     numeric_data = numeric_data.dropna()
 
-    # Executing t-SNE
+    # Executing t-SNE-------------
     st.header("t-SNE")
     st.write("Ο αλγόριθμος μείωσης διάστασης t-SNE (t-distributed Stochastic Neighbor Embedding) είναι ένας αλγόριθμος που χρησιμοποιείται για την οπτικοποίηση και την εξερεύνηση πολυδιάστατων δεδομένων σε έναν χαμηλότερης διάστασης χώρο. Η βασική ιδέα πίσω από το t-SNE είναι η μετατροπή υψηλής διάστασης δεδομένων σε χαμηλής διάστασης αναπαραστάσεις, διατηρώντας τις αποστάσεις μεταξύ των δεδομένων όσο το δυνατόν πιο κοντά στις αρχικές. Συνήθως χρησιμοποιείται σε συνδυασμό με άλλες τεχνικές οπτικοποίησης ή ανάλυσης δεδομένων για την κατανόηση και την ανάδειξη συσχετίσεων μεταξύ των παρατηρούμενων φαινομένων.")
     st.write("Οπτικοποίηση δεδομένων με τον t-SNE:")
@@ -53,22 +53,27 @@ def main():
     plt.ylabel('Component 2')
     st.pyplot(plt)
 
-    # EDA Diagrams
-    #st.header("Διαγράμματα EDA")
-    #st.subheader("Box Plot")
-    #plt.figure(figsize=(10, 6))
-    #sns.boxplot(data=data)
-    #st.pyplot(plt)
+    # EDA Diagrams-------------
+    st.header("Διαγράμματα EDA")
 
-    # Διάγραμμα διασποράς
-    #st.subheader("Διάγραμμα Διασποράς")
-    #sns.pairplot(data)
-    #st.pyplot(plt)
+    # Box Plot Diagram
+    st.subheader("Box Plot")
+    plt.figure(figsize=(10, 6))
+    sns.boxplot(data=data)
+    st.pyplot(plt)
 
-    #st.subheader("Ιστόγραμμα")
-    #plt.figure(figsize=(10, 6))
-    #sns.histplot(data)
-    #st.pyplot(plt)
+    # Density Diagram
+    st.subheader("Διάγραμμα Πυκνότητας")
+    plt.figure(figsize=(10, 6))
+    sns.kdeplot(data, shade=True)
+    st.pyplot(plt)
 
+    # Heatmap
+    st.subheader("Διάγραμμα Κατακερματισμού (Heatmap)")
+    plt.figure(figsize=(10, 6))
+    sns.heatmap(data.corr(), annot=True, cmap='coolwarm', fmt=".2f")
+    st.pyplot(plt)
+
+    
 if __name__ == "__main__":
     main()
