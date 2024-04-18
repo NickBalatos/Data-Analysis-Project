@@ -53,15 +53,18 @@ def interface():
       # Class
       y = list(dataset.columns)[len(dataset.columns)-1]
 
-      fig_kmeans = None
-      fig_hier_clust = None
+
 
       # Initialize session state variables if not already present
       if 'n_kmeans' not in st.session_state:
             st.session_state.n_kmeans = 0
       if 'n_hier_clust' not in st.session_state:
             st.session_state.n_hier_clust = 0
-
+      if "fig_kmeans" not in st.session_state:
+            st.session_state.fig_kmeans, st.session_state.ax_kmeans = plt.subplots()
+            st.session_state.scatter_kmeans = None
+      if "fig_hier_clust" not in st.session_state:
+            st.session_state.fig_hier_clust, st.session_state.ax_hier_clust = plt.subplots()
 
       x = 0
       y = 0
@@ -93,26 +96,28 @@ def interface():
             
       #-------------------RESULTS AND COMPRARISON--------------------------
       st.title("Results and Comprarison")
-      for item in st.session_state.items():
-            st.write(item)
 
       
       if st.session_state.kmeans:
-            st.session_state.n_kmeans = k_means(kmeans_clusters, data, fig_kmeans)
+            st.session_state.n_kmeans, st.session_state.fig_kmeans = k_means(kmeans_clusters, data, st.session_state.fig_kmeans, st.session_state.scatter_kmeans)
       if st.session_state.hier_clust:
-            st.session_state.n_hier_clust = hierarchical_clustering(hierar_clusters, data, x, y, fig_hier_clust)
+            st.session_state.n_hier_clust, st.session_state.fig_hier_clust = hierarchical_clustering(hierar_clusters, data, x, y, st.session_state.fig_hier_clust)
+
+
       
       st.header("K-Means Results")
       if st.session_state.n_kmeans >= 1:
-            st.pyplot(fig_kmeans)
+            st.pyplot(st.session_state.fig_kmeans)
 
       st.header("Hierarchical Clustering")
       st.write("Agglomerative Clustering")
       if st.session_state.n_hier_clust >= 1:
-            st.pyplot(fig_hier_clust)
+            st.pyplot(st.session_state.fig_hier_clust)
 
 
-def k_means(clusters, data, figure):
+
+
+def k_means(clusters, data, figure, scatter):
       # Run K Means
       kmeans = KMeans(n_clusters= clusters)
       labels = kmeans.fit_predict(data)
@@ -123,9 +128,9 @@ def k_means(clusters, data, figure):
       # Plotting
       fig, ax = plt.subplots()
       sc = ax.scatter(data_2d[:, 0], data_2d[:, 1], c=labels)
-      figure = fig
+      scatter = sc
 
-      return 1 # Successful execution of the algorithm
+      return 1, fig # Successful execution of the algorithm
       
       
 
@@ -145,11 +150,10 @@ def hierarchical_clustering(clusters, data, x, y, figure):
       # st.pyplot(fig)
       # Plot the clusters in a scatter plot
       fig2, ax2 = plt.subplots()
-      ax2.set_title("Scatterplot")
+      ax2.set_title("Damn")
       sc = ax2.scatter(data_2d[:, 0], data_2d[:, 1],  c=labels)
-      figure = fig2
 
-      return 1 # Successful execution of the algorithm
+      return 1, fig2 # Successful execution of the algorithm
 
       
       
