@@ -43,7 +43,6 @@ def interface():
       get_data(x, y, data)
 
       
-
       dataset = pd.read_csv("data.csv")
       # Get all the features columns except the class
       features = list(dataset.columns)[:-2]
@@ -54,20 +53,17 @@ def interface():
       y = list(dataset.columns)[len(dataset.columns)-1]
 
 
-
       # Initialize session state variables if not already present
-      if 'n_kmeans' not in st.session_state:
-            st.session_state.n_kmeans = 0
-      if 'n_hier_clust' not in st.session_state:
-            st.session_state.n_hier_clust = 0
+      if 'flag_kmeans' not in st.session_state:
+            st.session_state.flag_kmeans = False
+      if 'flag_hier_clust' not in st.session_state:
+            st.session_state.flag_hier_clust = False
       if "fig_kmeans" not in st.session_state:
-            st.session_state.fig_kmeans, st.session_state.ax_kmeans = plt.subplots()
-            st.session_state.scatter_kmeans = None
+            st.session_state.fig_kmeans = plt.subplots()
       if "fig_hier_clust" not in st.session_state:
-            st.session_state.fig_hier_clust, st.session_state.ax_hier_clust = plt.subplots()
+            st.session_state.fig_hier_clust = plt.subplots()
 
-      x = 0
-      y = 0
+
       #----------------------------K MEANS--------------------------------
       st.title("K-Means")
       st.write(
@@ -81,7 +77,6 @@ def interface():
       st.button("Run", key="kmeans")
             
 
-
       #--------------------HIERARCHIAL CLUSTERING-------------------------
       st.title("Hierarchical Clustering (Agglomerative Clustering)")
       st.write(
@@ -94,47 +89,44 @@ def interface():
       hierar_clusters = st.number_input(label="Αριθμός ομάδων", min_value=1, max_value=5, key= "num_hier")
       st.button("Run", key="hier_clust")
             
+
       #-------------------RESULTS AND COMPRARISON--------------------------
       st.title("Results and Comprarison")
-
-      
+      # We use a session state variables because we want the values to be maintained across the session
       if st.session_state.kmeans:
-            st.session_state.n_kmeans, st.session_state.fig_kmeans = k_means(kmeans_clusters, data, st.session_state.fig_kmeans, st.session_state.scatter_kmeans)
+            st.session_state.flag_kmeans, st.session_state.fig_kmeans = k_means(kmeans_clusters, data)
       if st.session_state.hier_clust:
-            st.session_state.n_hier_clust, st.session_state.fig_hier_clust = hierarchical_clustering(hierar_clusters, data, x, y, st.session_state.fig_hier_clust)
+            st.session_state.flag_hier_clust, st.session_state.fig_hier_clust = hierarchical_clustering(hierar_clusters, data)
 
 
-      
+      # If the algorithm has been executed, we set a flag to true.
+      # This flag is used to ensure that graphs are displayed throughout the session.
       st.header("K-Means Results")
-      if st.session_state.n_kmeans >= 1:
+      if st.session_state.flag_kmeans:
             st.pyplot(st.session_state.fig_kmeans)
-
       st.header("Hierarchical Clustering")
       st.write("Agglomerative Clustering")
-      if st.session_state.n_hier_clust >= 1:
+      if st.session_state.flag_hier_clust:
             st.pyplot(st.session_state.fig_hier_clust)
 
 
 
 
-def k_means(clusters, data, figure, scatter):
+def k_means(clusters, data):
       # Run K Means
       kmeans = KMeans(n_clusters= clusters)
       labels = kmeans.fit_predict(data)
       # Appling dimensional reduction in order to plot clusters from multi-feature dataset
       pca = PCA(2)
       data_2d = pca.fit_transform(data)    
-
       # Plotting
       fig, ax = plt.subplots()
       sc = ax.scatter(data_2d[:, 0], data_2d[:, 1], c=labels)
-      scatter = sc
-
-      return 1, fig # Successful execution of the algorithm
+      return True, fig # Successful execution of the algorithm
       
       
 
-def hierarchical_clustering(clusters, data, x, y, figure):
+def hierarchical_clustering(clusters, data):
       # Run Hierarchial Clustering
       linkage_data = linkage(data, method='ward', metric='euclidean')
       hierarchical_cluster = AgglomerativeClustering(n_clusters=clusters, metric='euclidean', linkage='ward')
@@ -153,7 +145,7 @@ def hierarchical_clustering(clusters, data, x, y, figure):
       ax2.set_title("Damn")
       sc = ax2.scatter(data_2d[:, 0], data_2d[:, 1],  c=labels)
 
-      return 1, fig2 # Successful execution of the algorithm
+      return True, fig2 # Successful execution of the algorithm
 
       
       
