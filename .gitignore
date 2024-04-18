@@ -2,3 +2,4 @@
 .streamlit
 .venv
 .csv-test-file
+data.csv

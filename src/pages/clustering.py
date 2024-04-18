@@ -54,6 +54,14 @@ def interface():
       y = list(dataset.columns)[len(dataset.columns)-1]
 
       fig_kmeans = None
+      fig_hier_clust = None
+
+      # Initialize session state variables if not already present
+      if 'n_kmeans' not in st.session_state:
+            st.session_state.n_kmeans = 0
+      if 'n_hier_clust' not in st.session_state:
+            st.session_state.n_hier_clust = 0
+
 
       x = 0
       y = 0
@@ -80,41 +88,48 @@ def interface():
             Υπάρχουν δύο κύριοι τύποι: Agglomerative (συγκεντρωτικό), που ξεκινά με μικρές ομάδες και τις συνδυάζει, και Divisive (διαιρετικό), που ξεκινά με μία ολική ομάδα και τη διαιρεί.
             """
       )
-      heirar_clusters = st.number_input(label="Αριθμός ομάδων", min_value=1, max_value=5, key= "num_hier")
+      hierar_clusters = st.number_input(label="Αριθμός ομάδων", min_value=1, max_value=5, key= "num_hier")
       st.button("Run", key="hier_clust")
             
       #-------------------RESULTS AND COMPRARISON--------------------------
       st.title("Results and Comprarison")
+      for item in st.session_state.items():
+            st.write(item)
+
+      
+      if st.session_state.kmeans:
+            st.session_state.n_kmeans = k_means(kmeans_clusters, data, fig_kmeans)
+      if st.session_state.hier_clust:
+            st.session_state.n_hier_clust = hierarchical_clustering(hierar_clusters, data, x, y, fig_hier_clust)
+      
       st.header("K-Means Results")
-      if "kmeans" in st.session_state and st.session_state.kmeans:
-            k_means(kmeans_clusters, data, x, y)
+      if st.session_state.n_kmeans >= 1:
+            st.pyplot(fig_kmeans)
+
       st.header("Hierarchical Clustering")
       st.write("Agglomerative Clustering")
-      if "hier_clust" in st.session_state and st.session_state.hier_clust:
-            hierarchical_clustering(heirar_clusters, data, x, y)
-      
+      if st.session_state.n_hier_clust >= 1:
+            st.pyplot(fig_hier_clust)
 
 
-
-def k_means(clusters, data, x, y):
-      print(clusters)
+def k_means(clusters, data, figure):
       # Run K Means
       kmeans = KMeans(n_clusters= clusters)
       labels = kmeans.fit_predict(data)
       # Appling dimensional reduction in order to plot clusters from multi-feature dataset
       pca = PCA(2)
-      data_2d = pca.fit_transform(data)
-      
-      plotted_data = data_2d
-      plotted_labels = labels      
+      data_2d = pca.fit_transform(data)    
+
       # Plotting
       fig, ax = plt.subplots()
       sc = ax.scatter(data_2d[:, 0], data_2d[:, 1], c=labels)
-      st.pyplot(fig)
-      st.write("Results mpla mpla")
+      figure = fig
 
+      return 1 # Successful execution of the algorithm
+      
+      
 
-def hierarchical_clustering(clusters, data, x, y):
+def hierarchical_clustering(clusters, data, x, y, figure):
       # Run Hierarchial Clustering
       linkage_data = linkage(data, method='ward', metric='euclidean')
       hierarchical_cluster = AgglomerativeClustering(n_clusters=clusters, metric='euclidean', linkage='ward')
@@ -122,16 +137,22 @@ def hierarchical_clustering(clusters, data, x, y):
       # Appling dimensional reduction in order to plot clusters from multi-feature dataset
       pca = PCA(2)
       data_2d = pca.fit_transform(data)
+
       # Plot dendogram
       fig, ax = plt.subplots()
       ax.set_title("Dendogram")
       dendrogram(linkage_data)
-      st.pyplot(fig)
+      # st.pyplot(fig)
       # Plot the clusters in a scatter plot
       fig2, ax2 = plt.subplots()
       ax2.set_title("Scatterplot")
-      ax2.scatter(data_2d[:, 0], data_2d[:, 1], c=labels)
-      st.pyplot(fig2)
+      sc = ax2.scatter(data_2d[:, 0], data_2d[:, 1],  c=labels)
+      figure = fig2
+
+      return 1 # Successful execution of the algorithm
+
+      
+      
 
 
 
