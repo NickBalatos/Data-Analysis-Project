@@ -21,6 +21,8 @@ def main():
     st.write("Τα φορτωμένα δεδομένα:")
     st.write(data)
     
+    st.markdown("""---""")
+
     # Executing PCA-------------
     st.header("Αλγόριθμοι Μείωσης Διάστασης") 
     st.header("PCA")
@@ -53,17 +55,20 @@ def main():
     plt.ylabel('Component 2')
     st.pyplot(plt)
 
+    st.markdown("""---""")
+
     # EDA Diagrams-------------
     st.header("Διαγράμματα EDA")
+    st.write("Το EDA (Exploratory Data Analysis) διάγραμμα είναι ένα γραφικό που χρησιμοποιείται για την εξερεύνηση και την ανάλυση δεδομένων. Συνήθως χρησιμοποιείται στην αρχική φάση ενός έργου δεδομένων για να αναδείξει μοτίβα, τάσεις και ανωμαλίες. Τα EDA διαγράμματα μπορεί να περιλαμβάνουν ιστόγραμματα, διαγράμματα διασποράς, γραφήματα κουτιών και άλλα, που βοηθούν στην καλύτερη κατανόηση των δεδομένων και στη λήψη αποφάσεων.")
 
     # Box Plot Diagram
-    st.subheader("Box Plot")
+    st.subheader("Διάγραμμα Κουτιών (Box Plot)")
     plt.figure(figsize=(10, 6))
     sns.boxplot(data=data)
     st.pyplot(plt)
 
     # Density Diagram
-    st.subheader("Διάγραμμα Πυκνότητας")
+    st.subheader("Διάγραμμα Πυκνότητας (Density Diagram)")
     plt.figure(figsize=(10, 6))
     sns.kdeplot(data, shade=True)
     st.pyplot(plt)
