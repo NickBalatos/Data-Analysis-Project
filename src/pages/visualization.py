@@ -63,7 +63,7 @@ def main():
     
     # Box Plot Diagram
     st.subheader("Διάγραμμα Κουτιών (Box Plot)")
-    st.write("Το διάγραμμα Box Plot είναι ένα εργαλείο ανάλυσης δεδομένων που αναπαριστά τη διακύμανση μιας μεταβλητής.")
+    st.write("Τα διαγράμματα Box Plot είναι ένα εργαλείο ανάλυσης δεδομένων που αναπαριστά τη διακύμανση μιας μεταβλητής.")
     plt.figure(figsize=(10, 6))
     sns.boxplot(data=data)
     st.pyplot(plt)
