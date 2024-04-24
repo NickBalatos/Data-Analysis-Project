@@ -6,12 +6,24 @@ from sklearn.manifold import TSNE
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
+import pandas_datareader as pdr
 # Either this or add_indentation() MUST be called on each page in your
 # app to add indendation in the sidebar
 add_page_title()
 
+# Function to check if the file contains only numeric data
+def is_numeric_file(file_path):
+    try:
+        data = pd.read_csv(file_path)
+        numeric_columns = data.select_dtypes(include=[np.number]).columns
+        if len(numeric_columns) == len(data.columns):
+            return True
+        else:
+            return False
+    except Exception as e:
+        return False
+
 def main():
-    
    # Checking for data in session state-------------
     if 'data' not in st.session_state:
         st.error("Δεν υπάρχουν δεδομένα. Φορτώστε αρχείο CSV ή Excel στο Home Tab.")
@@ -20,7 +32,11 @@ def main():
     data = st.session_state.data
     st.write("Τα φορτωμένα δεδομένα:")
     st.write(data)
-    
+
+    # Checking the dataset for letters 
+    if any(data.dtypes.apply(lambda x: pd.api.types.is_string_dtype(x))):
+        st.error("Το αρχείο δεδομένων περιέχει γράμματα. Φορτώστε ένα αρχείο με μόνο αριθμητικές τιμές.")
+        return
     st.markdown("""---""")
 
     # Executing PCA-------------
@@ -38,9 +54,9 @@ def main():
     st.pyplot(plt)
     
     # Converting non-numeric data to NaN-------------
-    numeric_data = data.select_dtypes(include=[np.number])
+    #numeric_data = data.select_dtypes(include=[np.number])
     # Droppng NaN collumns
-    numeric_data = numeric_data.dropna()
+    #numeric_data = numeric_data.dropna()
 
     # Executing t-SNE-------------
     st.subheader("Αλγόριθμος t-SNE")

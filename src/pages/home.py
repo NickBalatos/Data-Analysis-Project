@@ -19,6 +19,7 @@ def main():
     #Home Tab
     st.title("Αρχική Σελίδα")
     st.write("Καλωσοσρίσατε στην Εφαρμογή Μηχανικής Μάθησης & 2D Visualization της ομάδας Brigade-01. Προσθέστε ένα αρχείο CSV ή Excel παρακάτω για να ξεκινήσετε την επεξεργασία του μέσω της εφαρμογής μας.")
+    st.markdown("""---""")
     # File uploading module
     uploaded_file = st.file_uploader("Φόρτωση αρχείου CSV ή Excel", type=["csv", "xlsx"])
     
@@ -32,9 +33,10 @@ def main():
             return
         
         success_message = st.success("Τα δεδομένα φορτώθηκαν με επιτυχία!")
-        
+        st.markdown("""---""")
         # Saving uploaded data for usage on the rest of the tabs
         st.session_state.data = data
-    
+        st.write("Τα φορτωμένα δεδομένα:")
+        st.write(data)
 if __name__ == "__main__":
     main()
