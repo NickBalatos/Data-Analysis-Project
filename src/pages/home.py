@@ -15,11 +15,11 @@ def load_data(file_path):
 
 def main():
     st.session_state.data = None
-   
     #Home Tab
     st.title("Αρχική Σελίδα")
     st.write("Καλωσοσρίσατε στην Εφαρμογή Μηχανικής Μάθησης & 2D Visualization της ομάδας Brigade-01. Προσθέστε ένα αρχείο CSV ή Excel παρακάτω για να ξεκινήσετε την επεξεργασία του μέσω της εφαρμογής μας.")
     st.markdown("""---""")
+
     # File uploading module
     uploaded_file = st.file_uploader("Φόρτωση αρχείου CSV ή Excel", type=["csv", "xlsx"])
     
@@ -32,11 +32,17 @@ def main():
             st.error("Τύπος αρχείου μη υποστηριζόμενος.")
             return
         
-        success_message = st.success("Τα δεδομένα φορτώθηκαν με επιτυχία!")
+        # Check if the uploaded file contains letters
+        if data.select_dtypes(include=['object']).empty:
+            success_message = st.success("Τα δεδομένα φορτώθηκαν με επιτυχία!")
+            st.markdown("""---""")
+            st.write("Τα φορτωμένα δεδομένα:")
+            st.write(data)
+        else:
+            st.error("Το αρχείο δεδομένων περιέχει γράμματα. Φορτώστε ένα αρχείο με μόνο αριθμητικές τιμές.")
         st.markdown("""---""")
+
         # Saving uploaded data for usage on the rest of the tabs
         st.session_state.data = data
-        st.write("Τα φορτωμένα δεδομένα:")
-        st.write(data)
 if __name__ == "__main__":
     main()
