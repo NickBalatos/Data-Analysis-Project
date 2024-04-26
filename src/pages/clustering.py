@@ -7,14 +7,14 @@ from sklearn.cluster import KMeans
 from sklearn.cluster import AgglomerativeClustering
 from scipy.cluster.hierarchy import dendrogram, linkage
 from sklearn.decomposition import PCA
-
-
-import asyncio
-
-
-import csv
-
-
+from sklearn.metrics import (
+      calinski_harabasz_score,
+      davies_bouldin_score,
+      silhouette_score,
+      normalized_mutual_info_score,
+      adjusted_rand_score,
+      homogeneity_completeness_v_measure
+)
 
 # Either this or add_indentation() MUST be called on each page in your
 # app to add indendation in the sidebar
@@ -58,10 +58,10 @@ def interface():
             st.session_state.flag_kmeans = False
       if 'flag_hier_clust' not in st.session_state:
             st.session_state.flag_hier_clust = False
-      if "fig_kmeans" not in st.session_state:
-            st.session_state.fig_kmeans = plt.subplots()
-      if "fig_hier_clust" not in st.session_state:
-            st.session_state.fig_hier_clust = plt.subplots()
+      if "labels_kmeans" not in st.session_state:
+            st.session_state.labels_kmeans = None
+      if "labels_hier_clust" not in st.session_state:
+            st.session_state.labels_hier_clust = None
 
 
       #----------------------------K MEANS--------------------------------
@@ -94,20 +94,19 @@ def interface():
       st.title("Results and Comprarison")
       # We use a session state variables because we want the values to be maintained across the session
       if st.session_state.kmeans:
-            st.session_state.flag_kmeans, st.session_state.fig_kmeans = k_means(kmeans_clusters, data)
+            st.session_state.flag_kmeans, st.session_state.labels_kmeans = k_means(kmeans_clusters, data)
       if st.session_state.hier_clust:
-            st.session_state.flag_hier_clust, st.session_state.fig_hier_clust = hierarchical_clustering(hierar_clusters, data)
+            st.session_state.flag_hier_clust, st.session_state.labels_hier_clust = hierarchical_clustering(hierar_clusters, data)
 
 
       # If the algorithm has been executed, we set a flag to true.
       # This flag is used to ensure that graphs are displayed throughout the session.
       st.header("K-Means Results")
       if st.session_state.flag_kmeans:
-            st.pyplot(st.session_state.fig_kmeans)
-      st.header("Hierarchical Clustering")
-      st.write("Agglomerative Clustering")
+            calculate_metrics(data, st.session_state.labels_kmeans)
+      st.header("Hierarchical Clustering (Agglomerative Clustering)")
       if st.session_state.flag_hier_clust:
-            st.pyplot(st.session_state.fig_hier_clust)
+            calculate_metrics(data, st.session_state.labels_hier_clust)
 
 
 
@@ -116,39 +115,33 @@ def k_means(clusters, data):
       # Run K Means
       kmeans = KMeans(n_clusters= clusters)
       labels = kmeans.fit_predict(data)
-      # Appling dimensional reduction in order to plot clusters from multi-feature dataset
-      pca = PCA(2)
-      data_2d = pca.fit_transform(data)    
-      # Plotting
-      fig, ax = plt.subplots()
-      sc = ax.scatter(data_2d[:, 0], data_2d[:, 1], c=labels)
-      return True, fig # Successful execution of the algorithm
+
+      return True, labels # Successful execution of the algorithm
       
       
 
 def hierarchical_clustering(clusters, data):
       # Run Hierarchial Clustering
-      linkage_data = linkage(data, method='ward', metric='euclidean')
       hierarchical_cluster = AgglomerativeClustering(n_clusters=clusters, metric='euclidean', linkage='ward')
       labels = hierarchical_cluster.fit_predict(data)
-      # Appling dimensional reduction in order to plot clusters from multi-feature dataset
-      pca = PCA(2)
-      data_2d = pca.fit_transform(data)
 
-      # Plot dendogram
-      fig, ax = plt.subplots()
-      ax.set_title("Dendogram")
-      dendrogram(linkage_data)
-      # st.pyplot(fig)
-      # Plot the clusters in a scatter plot
-      fig2, ax2 = plt.subplots()
-      ax2.set_title("Damn")
-      sc = ax2.scatter(data_2d[:, 0], data_2d[:, 1],  c=labels)
-
-      return True, fig2 # Successful execution of the algorithm
+      return True, labels # Successful execution of the algorithm
 
       
-      
+def calculate_metrics(data, labels):
+      silhouette_avg = silhouette_score(data, labels)
+      calinski_score = calinski_harabasz_score(data, labels)
+      davies_score = davies_bouldin_score(data, labels)
+      # Dunn Index
+      # WSS
+      # BSS
+      #nmi = normalized_mutual_info_score(true_labels, predicted_labels)
+      #ari = adjusted_rand_score(true_labels, predicted_labels)
+      #homogeneity, completeness, v_measure = homogeneity_completeness_v_measure(true_labels, predicted_labels)
+      # Cluster Purity
+      st.write(f"Silhouette Score: {silhouette_avg}")
+      st.write(f"Calinski-Harabasz Index: {calinski_score}")
+      st.write(f"Davies-Bouldin Index: {davies_score}")
 
 
 
