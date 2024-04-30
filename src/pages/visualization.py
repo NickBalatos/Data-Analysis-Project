@@ -30,12 +30,10 @@ def main():
         return
     
     data = st.session_state.data
-    st.write("Τα φορτωμένα δεδομένα:")
-    st.write(data)
 
     # Checking the dataset for letters 
     if any(data.dtypes.apply(lambda x: pd.api.types.is_string_dtype(x))):
-        st.error("Το αρχείο δεδομένων περιέχει γράμματα. Φορτώστε ένα αρχείο με μόνο αριθμητικές τιμές.")
+        st.error("Το αρχείο δεδομένων περιέχει γράμματα. Φορτώστε ένα αρχείο που περιέχει μόνο αριθμητικές τιμές.")
         return
     st.markdown("""---""")
 
