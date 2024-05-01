@@ -39,7 +39,10 @@ def main():
             st.write("Τα φορτωμένα δεδομένα:")
             st.write(data)
         else:
-            st.error("Το αρχείο δεδομένων περιέχει γράμματα. Φορτώστε ένα αρχείο με μόνο αριθμητικές τιμές.")
+            st.error("Το αρχείο δεδομένων περιέχει γράμματα. Φορτώστε ένα αρχείο που περιέχει μόνο αριθμητικές τιμές.")
+            st.markdown("""---""")
+            st.write("Τα φορτωμένα δεδομένα:")
+            st.write(data)
         st.markdown("""---""")
 
         # Saving uploaded data for usage on the rest of the tabs
