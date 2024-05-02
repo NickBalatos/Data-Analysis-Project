@@ -2,10 +2,9 @@ import streamlit as st
 from st_pages import show_pages_from_config, add_page_title
 import numpy as np# for testing reasons
 import pandas as pd
-import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 from sklearn.cluster import AgglomerativeClustering
-from scipy.cluster.hierarchy import dendrogram, linkage
+from sklearn.metrics.pairwise import euclidean_distances
 from sklearn.decomposition import PCA
 from sklearn.metrics import (
       calinski_harabasz_score,
@@ -127,22 +126,41 @@ def hierarchical_clustering(clusters, data):
 
       return True, labels # Successful execution of the algorithm
 
+
+def calc_dunn_index(data, labels):
+      distances = euclidean_distances(data)
+      W = np.max([np.max(distances[labels == label][:, labels == label]) for label in np.unique(labels)])
+      centroids = [np.mean(data[labels == label], axis=0) for label in np.unique(labels)]
+      B = np.min([np.min([np.linalg.norm(centroids[i] - centroids[j]) for j in range(len(centroids)) if j != i]) for i in range(len(centroids))])
+      Dunn_index = B / W
+      return Dunn_index
+
+
+# def calc_wss(data, labels, algorithm):
+
+
+def calc_bss(data, labels):
+      centroids = [np.mean(data[labels == label], axis=0) for label in np.unique(labels)]
+      overall_centroid = np.mean(data, axis=0)
+      BSS = sum([np.sum((centroid - overall_centroid) ** 2) * np.sum(labels == label) for centroid, label in zip(centroids, np.unique(labels))])
+      return BSS
+
+      
       
 def calculate_metrics(data, labels):
-      silhouette_avg = silhouette_score(data, labels)
-      calinski_score = calinski_harabasz_score(data, labels)
-      davies_score = davies_bouldin_score(data, labels)
-      # Dunn Index
-      # WSS
-      # BSS
-      #nmi = normalized_mutual_info_score(true_labels, predicted_labels)
-      #ari = adjusted_rand_score(true_labels, predicted_labels)
-      #homogeneity, completeness, v_measure = homogeneity_completeness_v_measure(true_labels, predicted_labels)
-      # Cluster Purity
-      st.write(f"Silhouette Score: {silhouette_avg}")
-      st.write(f"Calinski-Harabasz Index: {calinski_score}")
-      st.write(f"Davies-Bouldin Index: {davies_score}")
+      st.write(f"Silhouette Score: {silhouette_score(data, labels)}")
+      st.write(f"Calinski-Harabasz Index: {calinski_harabasz_score(data, labels)}")
+      st.write(f"Davies-Bouldin Index: {davies_bouldin_score(data, labels)}")
+      st.write(f"Dunn Index: {calc_dunn_index(data, labels)}")
+      #wss
+      st.write(f"BSS: {calc_bss(data, labels)}")
+      # nmi ; For NMI we need ground truth labels. 'Ground truth' is that data or information that you have that is 'true' or assumed to be true.
+      # That means that you have high or perfect knowledge of what it is.
+      # ari ; The same applies to ARI.
+      # homogeneity, completeness, v_measure ; The same applies again to homogeneity, completeness, v_measure
+      # cluster purity ; The same again applies to Cluster Purity
 
+      
 
 
 # General main function of the file should call all the necessary function
