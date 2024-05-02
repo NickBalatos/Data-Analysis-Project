@@ -2,17 +2,15 @@ import streamlit as st
 from st_pages import show_pages_from_config, add_page_title
 import numpy as np# for testing reasons
 import pandas as pd
-from sklearn.cluster import KMeans
-from sklearn.cluster import AgglomerativeClustering
+from sklearn.cluster import ( 
+      KMeans,
+      AgglomerativeClustering
+)
 from sklearn.metrics.pairwise import euclidean_distances
-from sklearn.decomposition import PCA
 from sklearn.metrics import (
       calinski_harabasz_score,
       davies_bouldin_score,
       silhouette_score,
-      normalized_mutual_info_score,
-      adjusted_rand_score,
-      homogeneity_completeness_v_measure
 )
 
 # Either this or add_indentation() MUST be called on each page in your
