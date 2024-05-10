@@ -17,37 +17,29 @@ from sklearn.metrics import (
 # app to add indendation in the sidebar
 add_page_title()
 
-def get_data(x, y, data):
-      # It should fetch the csv data from the home page
-      # because the home page isn't ready, it will generate the required data
-      local_x = np.random.uniform(1, 10, 100) # rows from the csv file
-      local_y = np.random.uniform(1, 10, 100) # the target 
-
-      local_x = [4, 5, 10, 4, 3, 11, 14 , 6, 10, 12]
-      local_y = [21, 19, 24, 17, 16, 25, 24, 22, 21, 21]
-
-      
-      # Append each item to the originally passed lists
-      x.extend(local_x)
-      y.extend(local_y)
-      data.extend(list(zip(x, y)))
+def get_data():
+      """
+      Load the dataset that was uploaded in the homepage
+      """
+      try:
+      # Check if data is already loaded in session state
+            if 'data' in st.session_state:
+                  return st.session_state.data
+            else:
+                  raise KeyError("Data is not loaded in session state.")
+      except KeyError as e:
+            st.error(f"Error: {e}")
+            exit()
 
 
 def interface():
-      x = []
-      y = []
-      data = []
-      get_data(x, y, data)
-
+      data = get_data()
       
-      dataset = pd.read_csv("data.csv")
       # Get all the features columns except the class
-      features = list(dataset.columns)[:-2]
+      features = list(data.columns)[:-1]
 
       # Get the features data
-      data = dataset[features]
-      # Class
-      y = list(dataset.columns)[len(dataset.columns)-1]
+      data = data[features]
 
 
       # Initialize session state variables if not already present
