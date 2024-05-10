@@ -133,7 +133,7 @@ def main():
 # ------------------RANDOM FOREST CLASSIFIER---------------------------
 
     # Add a slider for selecting the number of trees to print
-    num_trees = st.slider("Select number of trees to print", 1, 100, 3)
+    num_trees = st.slider("Επιλέξτε τον αριθμό των δέντρων που θέλετε να εκτυπωθούν:", 1, 100, 3)
 
     # Add a button to run the Random Forest algorithm
     if st.button("Run Random Forest"):
@@ -177,6 +177,8 @@ def main():
 
 # ------------------SUPPORT VECTOR CLASSIFIER SVC---------------------
 
+    # Add a slider for selecting the value of C
+    C = st.slider("Επιλέξτε την τιμή που θα έχει το C:", 0.1, 10.0, step=0.1)
 
     # Add a button to run the SVC algorithm
     if st.button("Run SVC"):
