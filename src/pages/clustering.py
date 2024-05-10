@@ -131,7 +131,7 @@ def calculate_metrics(data: pd.DataFrame, labels: np.ndarray):
 
 
 
-def interface():
+def main():
       data = get_data()
       
       # Get all the features columns except the class
@@ -161,7 +161,7 @@ def interface():
             Χρησιμοποιείται ευρέως για την ανίχνευση μοτίβων, την ανάλυση ομάδων και ως προπαρασκευαστικό βήμα για άλλες αλγοριθμικές εφαρμογές.
             """
       )
-      kmeans_clusters = st.number_input(label="Αριθμός ομάδων", min_value=1, max_value=5, key= "num_kmeans")
+      kmeans_clusters = st.number_input(label="Αριθμός ομάδων", min_value=1, key= "num_kmeans")
       st.button("Run", key="kmeans")
             
 
@@ -174,7 +174,7 @@ def interface():
             Υπάρχουν δύο κύριοι τύποι: Agglomerative (συγκεντρωτικό), που ξεκινά με μικρές ομάδες και τις συνδυάζει, και Divisive (διαιρετικό), που ξεκινά με μία ολική ομάδα και τη διαιρεί.
             """
       )
-      hierar_clusters = st.number_input(label="Αριθμός ομάδων", min_value=1, max_value=5, key= "num_hier")
+      hierar_clusters = st.number_input(label="Αριθμός ομάδων", min_value=1, key= "num_hier")
       st.button("Run", key="hier_clust")
             
 
@@ -188,7 +188,7 @@ def interface():
 
 
       # If the algorithm has been executed, we set a flag to true.
-      # This flag is used to ensure that graphs are displayed throughout the session.
+      # This flag is used to ensure that the metrics are displayed throughout the session.
       st.header("K-Means Results")
       if st.session_state.flag_kmeans:
             calculate_metrics(data, st.session_state.labels_kmeans)
@@ -199,11 +199,8 @@ def interface():
 
 
 
-      
-
-
-# General main function of the file should call all the necessary function
-interface()
+if __name__ == "__main__":
+      main()
 
 
 
