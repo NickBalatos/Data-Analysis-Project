@@ -49,42 +49,23 @@ st.write("""
 
 # ------------------------------CSV-------------------------------------
 
-# Load the data from CSV into a DataFrame
-try:
-    # Check if data is already loaded in session state
-    if 'data' in st.session_state:
-        data = st.session_state.data
-    else:
-        raise KeyError("Data is not loaded in session state.")
-except KeyError as e:
-    st.error(f"Error: {e}")
-    exit()
-
-# Automatically extract columns and data
-if isinstance(data, pd.DataFrame):
-    columns = data.columns.tolist()
-    rows = data.values.tolist()
-else:
-    st.error("Error: Data is not a DataFrame.")
-    exit()
+def get_data():
+      # Load the dataset that was uploaded in the homepage
+      try:
+      # Check if data is already loaded in session state
+            if 'data' in st.session_state:
+                  return st.session_state.data
+            else:
+                  raise KeyError("Data is not loaded in session state.")
+      except KeyError as e:
+            st.error(f"Error: {e}")
+            exit()
 
 # ------------------------------CSV-------------------------------------
-
-
-# Pre-processing the data
-X = data[columns]
-y = data['Label']  # Assuming 'Label' column contains target labels
     
-# Drop rows with NaN values
-X = X.dropna()
-
-# Check if there are enough samples to split into training and testing sets
-if len(X) == 0 or len(y) == 0:
-    st.error("Error: Not enough samples to split into training and testing sets.")
-    exit()
 
 
-# ------------------------------CSV------------------------------------
+# ---------------------PLOTTING THE SVC RESULTS--------------------------
 
 # Plotting the SVC Results
 def plot_svc_results(X_test, y_test, y_pred_svc):
@@ -96,50 +77,50 @@ def plot_svc_results(X_test, y_test, y_pred_svc):
     plt.title("Confusion Matrix - SVC")
     st.pyplot(plt)
 
-    # Use only the first two features for visualization
-    X_test_2d = X_test[:, :2]
-
-    # Define a mesh to plot in
-    x_min, x_max = X_test_2d[:, 0].min() - 1, X_test_2d[:, 0].max() + 1
-    y_min, y_max = X_test_2d[:, 1].min() - 1, X_test_2d[:, 1].max() + 1
-    xx, yy = np.meshgrid(np.linspace(x_min, x_max, 100),
-                         np.linspace(y_min, y_max, 100))
-
-    # Create classifiers
-    svc = SVC(kernel="linear")
-    svc.fit(X_test_2d, y_test)
-
-    # Create a mesh of points
-    mesh_points = np.c_[xx.ravel(), yy.ravel()]
-
-    # Predict the class labels for each point in the mesh
-    Z = svc.predict(mesh_points)
-
-    # Reshape the predictions to match the mesh shape
-    Z = Z.reshape(xx.shape)
-
-    # Put the result into a color plot
-    plt.figure(figsize=(8, 6))
-    plt.contourf(xx, yy, Z, cmap=plt.cm.coolwarm, alpha=0.8)
-
-    # Plot also the test points
-    plt.scatter(X_test_2d[:, 0], X_test_2d[:, 1], c=y_test, cmap=plt.cm.coolwarm, s=100, marker='x', linewidths=3, edgecolors='k')
-    plt.xlim(xx.min(), xx.max())
-    plt.ylim(yy.min(), yy.max())
-    plt.xticks(())
-    plt.yticks(())
-    plt.title("SVC with linear kernel")
-    plt.tight_layout()
+    # Plot the scatter plot for SVC predictions
+    plot_svc_scatter(X_test, y_test, y_pred_svc)
+    
+# Plot the scatter plot for SVC predictions
+def plot_svc_scatter(X_test, y_test, y_pred_svc):
+    plt.figure(figsize=(10, 8))
+    plt.scatter(X_test[:, 0], X_test[:, 1], c=y_test, cmap=plt.cm.coolwarm, s=100, marker='x', linewidths=3, edgecolors='k', label='True labels')
+    plt.scatter(X_test[:, 0], X_test[:, 1], c=y_pred_svc, cmap=plt.cm.coolwarm, s=50, alpha=0.5, label='Predicted labels')
+    plt.xlabel("Feature 1")
+    plt.ylabel("Feature 2")
+    plt.title("Scatter Plot - SVC Predictions")
+    plt.legend()
     st.pyplot(plt)
+
+# ---------------------PLOTTING THE SVC RESULTS--------------------------
 
 
 # --------------------------MAIN FUNCTION------------------------------
 
 def main():
-    # Set font size for matplotlibimport seaborn as sns
-    plt.rc('font', size=300)
 
-    global X, y  # declare X, y as global variables to access them within main()
+    # Load the data
+    data = get_data()
+    
+    # Get all the features columns except the class
+    features = list(data.columns)[:-1]
+
+    # Get the features data
+    X = data[features]
+    y = data['label']  # Assuming 'Label' column contains target labels
+
+    # Drop rows with NaN values
+    X = X.dropna()
+
+    # Concatenate the features and labels into a single DataFrame
+    data_with_labels = pd.concat([X, y], axis=1)
+
+    # Check if there are enough samples to split into training and testing sets
+    if len(X) == 0 or len(y) == 0:
+        st.error("Error: Not enough samples to split into training and testing sets.")
+        exit()
+
+    # Set font size for matplotlibimport seaborn as sns
+    plt.rc('font', size=10)
 
     # Pre-processing the data
     imputer_X = SimpleImputer(strategy='most_frequent')
@@ -152,7 +133,7 @@ def main():
 # ------------------RANDOM FOREST CLASSIFIER---------------------------
 
     # Add a slider for selecting the number of trees to print
-    num_trees = st.slider("Select number of trees to print", 1, 100, 3)
+    num_trees = st.slider("Επιλέξτε τον αριθμό των δέντρων που θέλετε να εκτυπωθούν:", 1, 100, 3)
 
     # Add a button to run the Random Forest algorithm
     if st.button("Run Random Forest"):
@@ -196,6 +177,8 @@ def main():
 
 # ------------------SUPPORT VECTOR CLASSIFIER SVC---------------------
 
+    # Add a slider for selecting the value of C
+    C = st.slider("Επιλέξτε την τιμή που θα έχει το C:", 0.1, 10.0, step=0.1)
 
     # Add a button to run the SVC algorithm
     if st.button("Run SVC"):
