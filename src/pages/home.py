@@ -17,7 +17,7 @@ def main():
     st.session_state.data = None
     #Home Tab
     st.title("Αρχική Σελίδα")
-    st.write("Καλωσοσρίσατε στην Εφαρμογή Μηχανικής Μάθησης & 2D Visualization της ομάδας Brigade-01. Προσθέστε ένα αρχείο CSV ή Excel παρακάτω για να ξεκινήσετε την επεξεργασία του μέσω της εφαρμογής μας.")
+    st.write("Καλώς ορίσατε στην Εφαρμογή Μηχανικής Μάθησης & 2D Visualization της ομάδας Brigade-01. Προσθέστε ένα αρχείο CSV ή Excel παρακάτω για να ξεκινήσετε την επεξεργασία του μέσω της εφαρμογής μας.")
     st.markdown("""---""")
 
     # File uploading module
