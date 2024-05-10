@@ -13,9 +13,8 @@ from sklearn.metrics import (
       silhouette_score,
 )
 
-# Either this or add_indentation() MUST be called on each page in your
-# app to add indendation in the sidebar
 add_page_title()
+
 
 def get_data():
       """
@@ -30,6 +29,106 @@ def get_data():
       except KeyError as e:
             st.error(f"Error: {e}")
             exit()
+
+
+def k_means(clusters: int, data: pd.DataFrame) -> tuple[bool, np.ndarray]:
+      """
+      Perform K Means clustering on the given data.
+
+      Parameters:
+            clusters (int): The number of clusters to create.
+            data (pandas.DataFrame): The input data points.
+
+      Returns:
+            tuple: A tuple containing:
+                  - bool: True, indicating successful execution of the algorithm.
+                  - labels (numpy.ndarray): The labels assigned to each data point by the clustering algorithm.
+      """
+      kmeans = KMeans(n_clusters= clusters)
+      labels = kmeans.fit_predict(data)
+
+      return True, labels
+      
+      
+def hierarchical_clustering(clusters: int, data: pd.DataFrame) -> tuple[bool, np.ndarray]:
+      """
+      Perform hierarchical clustering on the given data.
+
+      Parameters:
+            clusters (int): The number of clusters to create.
+            data (pandas.DataFrame): The input data points.
+
+      Returns:
+            tuple: A tuple containing:
+                  - bool: True, indicating successful execution of the algorithm.
+                  - labels (numpy.ndarray): The labels assigned to each data point by the clustering algorithm.
+      Notes:
+            The function uses the Agglomerative Clustering type, with Euclidean distance and Ward's method as linkage.
+      """
+      hierarchical_cluster = AgglomerativeClustering(n_clusters=clusters, metric='euclidean', linkage='ward')
+      labels = hierarchical_cluster.fit_predict(data)
+
+      return True, labels
+
+
+def calc_dunn_index(data: pd.DataFrame, labels: np.ndarray) -> float:
+      """
+      Calculate the Dunn index for a given clustering.
+
+      Parameters:
+            data (pandas.DataFrame): The input data points.
+            labels (numpy.ndarray): The labels assigned to each data point by the clustering algorithm.
+
+      Returns:
+            float: The calculated Dunn index value.
+      """
+
+      distances = euclidean_distances(data)
+      W = np.max([np.max(distances[labels == label][:, labels == label]) for label in np.unique(labels)])
+      centroids = [np.mean(data[labels == label], axis=0) for label in np.unique(labels)]
+      B = np.min([np.min([np.linalg.norm(centroids[i] - centroids[j]) for j in range(len(centroids)) if j != i]) for i in range(len(centroids))])
+      Dunn_index = B / W
+      return Dunn_index
+
+
+def calc_bss(data: pd.DataFrame, labels: np.ndarray) -> float:
+      """
+      Calculate the Between-Cluster Sum of Squares (BSS) for a given clustering.
+
+      Parameters:
+            data (pandas.DataFrame): The input data points.
+            labels (numpy.ndarray): The labels assigned to each data point by the clustering algorithm.
+
+      Returns:
+            float: The calculated Between-Cluster Sum of Squares (BSS) value.
+      """
+
+      centroids = [np.mean(data[labels == label], axis=0) for label in np.unique(labels)]
+      overall_centroid = np.mean(data, axis=0)
+      BSS = sum([np.sum((centroid - overall_centroid) ** 2) * np.sum(labels == label) for centroid, label in zip(centroids, np.unique(labels))])
+      return BSS
+
+      
+def calculate_metrics(data: pd.DataFrame, labels: np.ndarray):
+      """
+      Calculate clustering evaluation metrics.
+
+      Parameters:
+            data (pandas.DataFrame): The input data points.
+            labels (numpy.ndarray): The labels assigned to each data point by the clustering algorithm.
+      """
+      st.write(f"Silhouette Score: {silhouette_score(data, labels)}")
+      st.write(f"Calinski-Harabasz Index: {calinski_harabasz_score(data, labels)}")
+      st.write(f"Davies-Bouldin Index: {davies_bouldin_score(data, labels)}")
+      st.write(f"Dunn Index: {calc_dunn_index(data, labels)}")
+      #wss
+      st.write(f"BSS: {calc_bss(data, labels)}")
+      # nmi ; For NMI we need ground truth labels. 'Ground truth' is that data or information that you have that is 'true' or assumed to be true.
+      # That means that you have high or perfect knowledge of what it is.
+      # ari ; The same applies to ARI.
+      # homogeneity, completeness, v_measure ; The same applies again to homogeneity, completeness, v_measure
+      # cluster purity ; The same again applies to Cluster Purity
+
 
 
 def interface():
@@ -99,56 +198,6 @@ def interface():
 
 
 
-
-def k_means(clusters, data):
-      # Run K Means
-      kmeans = KMeans(n_clusters= clusters)
-      labels = kmeans.fit_predict(data)
-
-      return True, labels # Successful execution of the algorithm
-      
-      
-
-def hierarchical_clustering(clusters, data):
-      # Run Hierarchial Clustering
-      hierarchical_cluster = AgglomerativeClustering(n_clusters=clusters, metric='euclidean', linkage='ward')
-      labels = hierarchical_cluster.fit_predict(data)
-
-      return True, labels # Successful execution of the algorithm
-
-
-def calc_dunn_index(data, labels):
-      distances = euclidean_distances(data)
-      W = np.max([np.max(distances[labels == label][:, labels == label]) for label in np.unique(labels)])
-      centroids = [np.mean(data[labels == label], axis=0) for label in np.unique(labels)]
-      B = np.min([np.min([np.linalg.norm(centroids[i] - centroids[j]) for j in range(len(centroids)) if j != i]) for i in range(len(centroids))])
-      Dunn_index = B / W
-      return Dunn_index
-
-
-# def calc_wss(data, labels, algorithm):
-
-
-def calc_bss(data, labels):
-      centroids = [np.mean(data[labels == label], axis=0) for label in np.unique(labels)]
-      overall_centroid = np.mean(data, axis=0)
-      BSS = sum([np.sum((centroid - overall_centroid) ** 2) * np.sum(labels == label) for centroid, label in zip(centroids, np.unique(labels))])
-      return BSS
-
-      
-      
-def calculate_metrics(data, labels):
-      st.write(f"Silhouette Score: {silhouette_score(data, labels)}")
-      st.write(f"Calinski-Harabasz Index: {calinski_harabasz_score(data, labels)}")
-      st.write(f"Davies-Bouldin Index: {davies_bouldin_score(data, labels)}")
-      st.write(f"Dunn Index: {calc_dunn_index(data, labels)}")
-      #wss
-      st.write(f"BSS: {calc_bss(data, labels)}")
-      # nmi ; For NMI we need ground truth labels. 'Ground truth' is that data or information that you have that is 'true' or assumed to be true.
-      # That means that you have high or perfect knowledge of what it is.
-      # ari ; The same applies to ARI.
-      # homogeneity, completeness, v_measure ; The same applies again to homogeneity, completeness, v_measure
-      # cluster purity ; The same again applies to Cluster Purity
 
       
 
