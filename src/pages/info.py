@@ -9,9 +9,9 @@ import streamlit as st
 def main():
     # Define your array of project members and their tasks
     project_members = {
-        "Florian Dima": ["-", "-"],  
+        "Florian Dima": ["-", "UML Diagrams","Software Development Life Cycle "],  
         "Spyridon Eftychios Kokotos": ["-", "-"],
-        "Nikolaos Balatos": ["-", "-"]
+        "Nikolaos Balatos": ["2D Visualization Tab","Home Tab", "Info Tab", "UML Diagrams", "Software Development Life Cycle "],
     }
 
     # Display the array with member names and their tasks
