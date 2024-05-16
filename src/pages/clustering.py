@@ -23,12 +23,18 @@ def get_data():
       try:
       # Check if data is already loaded in session state
             if 'data' in st.session_state:
+                  if any(st.session_state.data.dtypes.apply(lambda x: pd.api.types.is_string_dtype(x))):
+                    raise TypeError("Dataset contains string.")
                   return st.session_state.data
             else:
-                  raise KeyError("Data is not loaded in session state.")
-      except KeyError as e:
-            st.error(f"Δεν έχουν φορτωθεί δεδομένα στο webapp: {e}")
+                  raise KeyError("Data is not loaded in session state.")            
+      except TypeError:
+            st.error("Το αρχείο δεδομένων περιέχει γράμματα. Φορτώστε ένα αρχείο που περιέχει μόνο αριθμητικές τιμές.")
             exit()
+      except KeyError:
+            st.error("Δεν υπάρχουν δεδομένα. Φορτώστε αρχείο CSV ή Excel στο Home Tab.")
+            exit()
+
 
 
 def k_means(clusters: int, data: pd.DataFrame) -> tuple[bool, np.ndarray]:
