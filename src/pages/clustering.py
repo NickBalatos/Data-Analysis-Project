@@ -27,7 +27,7 @@ def get_data():
             else:
                   raise KeyError("Data is not loaded in session state.")
       except KeyError as e:
-            st.error(f"Error: {e}")
+            st.error(f"Δεν έχουν φορτωθεί δεδομένα στο webapp: {e}")
             exit()
 
 
