@@ -32,6 +32,7 @@ from IPython.display import display
 # Either this or add_indentation() MUST be called on each page in your
 add_page_title()
 
+
 # ------------------------------HEADER----------------------------------
 
 st.write("""
@@ -97,6 +98,28 @@ def plot_svc_scatter(X_test, y_test, y_pred_svc):
 # --------------------------MAIN FUNCTION------------------------------
 
 def main():
+
+    # Checking for data in session state-------------
+
+    if 'data' not in st.session_state:
+
+        st.error("Δεν υπάρχουν δεδομένα. Φορτώστε αρχείο CSV ή Excel στο Home Tab.")
+
+        return
+
+    
+
+    data = st.session_state.data
+
+
+
+    # Checking the dataset for letters 
+
+    if any(data.dtypes.apply(lambda x: pd.api.types.is_string_dtype(x))):
+
+        st.error("Το αρχείο δεδομένων περιέχει γράμματα. Φορτώστε ένα αρχείο που περιέχει μόνο αριθμητικές τιμές.")
+
+        return
 
     # Load the data
     data = get_data()
