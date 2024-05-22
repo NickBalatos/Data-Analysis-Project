@@ -4,6 +4,9 @@ Streamlit Application using Python
 
 ## Usage
 
+![GUI](https://github.com/Brigade-01/Software-Engineering/assets/33377581/2aa47809-6126-4557-bde2-43b5a6cbd5d3)
+
+
 ## Table of Contents
 <!-- vim-markdown-toc Marked -->
 
