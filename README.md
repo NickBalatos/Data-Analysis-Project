@@ -1,6 +1,10 @@
 # Software-Engineering
 
-Streamlit Application using Python
+Streamlit Application using Python:
+
+This project focuses on building a web-based application for data mining and analysis, leveraging either Streamlit or RShiny. Key features include tabular data loading, structured representation, 2D visualization, machine learning algorithm comparison, comprehensive result analysis, and project information. Also, this project aims to provide a user-friendly interface for in-depth data exploration and algorithm evaluation, catering to a wide audience.
+
+Key words: Data Mining, Data Analysis, 2D Visualization, Machine Learning
 
 ## Usage
 
