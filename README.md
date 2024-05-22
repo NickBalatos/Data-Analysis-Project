@@ -4,7 +4,7 @@ Streamlit Application using Python
 
 ## Usage
 
-## Table of    Contents
+## Table of Contents
 <!-- vim-markdown-toc Marked -->
 
 * [Features](#features)
@@ -19,9 +19,58 @@ Streamlit Application using Python
 
 ## Features
 
+- User-friendly interface for data analysis and visualization.
+- 2D Visualization: 
+- Classification Algorithms:
+- Clustering Algorithms:
+- Information tab about the contributions of the team.
+
 ## Requirements
 
+- Python
+- Docker
+- Streamlit
+- Pandas
+- Numpy
+- Matplotlib
+- Pillow
+- Scikit-learn
+and others. You can find the complete list in the requirements.txt file.
+
 ## Installation
+
+### Option 1: Pull the Docker Image
+
+1. Pull the Docker image from Docker Hub:
+
+    `docker pull spyridonkokotos/brigade-01-sw:latest`
+
+2. Run the Docker container:
+
+    `docker run -d --name brigade-01-sw -p 8501:8501 brigade-01-sw:latest`
+
+3. Open your web browser and go to `http://localhost:8501` to view the application.
+
+### Option 2: Build the Dockerfile Locally
+
+1. Clone the repository:
+
+    `git clone https://github.com/Brigade-01/Software-Engineering.git`
+
+2. Navigate to the project directory:
+ 
+    `cd Software-Engineering/src/`
+
+3. Build the Docker image:
+  
+    docker build -t brigade-01-sw:latest .
+  
+4. Run the Docker container:
+
+    `docker run -d --name brigade-01-sw -p 8501:8501 brigade-01-sw:latest`
+
+5. Open your web browser and go to `http://localhost:8501` to view the application.
+
 
 ## Basic Usage
 
