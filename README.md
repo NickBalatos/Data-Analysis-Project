@@ -72,7 +72,7 @@ and others. You can find the complete list in the requirements.txt file.
 
 3. Build the Docker image:
   
-    docker build -t brigade-01-sw:latest .
+    `docker build -t brigade-01-sw:latest .`
   
 4. Run the Docker container:
 
