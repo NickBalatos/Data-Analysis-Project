@@ -1,4 +1,4 @@
-# Software-Engineering
+# Software-Engineering 💯
 
 Streamlit Application using Python:
 
@@ -6,12 +6,14 @@ This project focuses on building a web-based application for data mining and ana
 
 Key words: Data Mining, Data Analysis, 2D Visualization, Machine Learning
 
-## Usage
+## Usage 📈
 
 ![GUI](https://github.com/Brigade-01/Software-Engineering/assets/33377581/2aa47809-6126-4557-bde2-43b5a6cbd5d3)
 
+<center>Overview of the Homepage 🌐</center>
 
-## Table of Contents
+
+## Table of Contents 📖
 <!-- vim-markdown-toc Marked -->
 
 * [Features](#features)
@@ -24,7 +26,7 @@ Key words: Data Mining, Data Analysis, 2D Visualization, Machine Learning
 
 <!-- vim-markdown-toc -->
 
-## Features
+## Features ✨
 
 - User-friendly interface for data analysis and visualization.
 - 2D Visualization: 
@@ -32,7 +34,7 @@ Key words: Data Mining, Data Analysis, 2D Visualization, Machine Learning
 - Clustering Algorithms:
 - Information tab about the contributions of the team.
 
-## Requirements
+## Requirements ⚙️
 
 - Python
 - Docker
@@ -44,7 +46,7 @@ Key words: Data Mining, Data Analysis, 2D Visualization, Machine Learning
 - Scikit-learn
 and others. You can find the complete list in the requirements.txt file.
 
-## Installation
+## Installation 👩🏻‍💻
 
 ### Option 1: Pull the Docker Image
 
@@ -81,11 +83,11 @@ and others. You can find the complete list in the requirements.txt file.
 
 ## Basic Usage
 
-## Reporting Bugs
+## Reporting Bugs 🐞
 
 When a bug is found, please do report it by [opening an issue at github](https://github.com/Brigade-01/Software-Engineering/issues), as already stated above.
 
-## License
+## License ✒️
 
 MIT License
 
@@ -109,7 +111,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-## Authors
+## Authors 👨🏻‍⚖️
 
 The above program is a creation of:
 
