@@ -1,13 +1,19 @@
-# Software-Engineering
+# Software-Engineering: 💯
 
-Streamlit Application using Python
+Streamlit Application using Python:
 
-## Usage
+This project focuses on building a web-based application for data mining and analysis, leveraging either Streamlit or RShiny. Key features include tabular data loading, structured representation, 2D visualization, machine learning algorithm comparison, comprehensive result analysis, and project information. Also, this project aims to provide a user-friendly interface for in-depth data exploration and algorithm evaluation, catering to a wide audience.
+
+Key words: Data Mining, Data Analysis, 2D Visualization, Machine Learning
+
+## Usage: 📈
 
 ![GUI](https://github.com/Brigade-01/Software-Engineering/assets/33377581/2aa47809-6126-4557-bde2-43b5a6cbd5d3)
 
+<p align="center">Welcome Screen of the Application 🌐</p>
 
-## Table of Contents
+
+## Table of Contents: 📖
 <!-- vim-markdown-toc Marked -->
 
 * [Features](#features)
@@ -20,15 +26,15 @@ Streamlit Application using Python
 
 <!-- vim-markdown-toc -->
 
-## Features
+## Features: ✨
 
 - User-friendly interface for data analysis and visualization.
-- 2D Visualization: 
-- Classification Algorithms:
-- Clustering Algorithms:
+- 2D Visualization: You can visualize the data using a variety of algorithms such as PCA and t-SNE.
+- Classification Algorithms: You can perform classification with the Random Forest and SVC algorithms, as well as compare the accuracy between the two algorithms.
+- Clustering Algorithms: You can perform clustering using the K-Means and Hierarchical Clustering algorithms.
 - Information tab about the contributions of the team.
 
-## Requirements
+## Requirements: ⚙️
 
 - Python
 - Docker
@@ -40,7 +46,7 @@ Streamlit Application using Python
 - Scikit-learn
 and others. You can find the complete list in the requirements.txt file.
 
-## Installation
+## Installation: 👩🏻‍💻
 
 ### Option 1: Pull the Docker Image
 
@@ -74,14 +80,23 @@ and others. You can find the complete list in the requirements.txt file.
 
 5. Open your web browser and go to `http://localhost:8501` to view the application.
 
+## Basic Usage: 📈
 
-## Basic Usage
+1. Upload your file: Select the .csv or .xls file you want to use by clicking the <i>"Browse Files"</i> button.
 
-## Reporting Bugs
+2. Wait for confirmation: Wait until a message confirming the <b>successful</b> upload of your file appears.
+
+3. Start exploring: Once the file is loaded and there are no issues with it's content, you can start exploring the application.
+
+4. Navigate through the app: Use the menu on the left to switch between tabs and utilize the included algorithms to test their performance.
+
+By following these steps, you can efficiently use the application for data analysis and algorithm comparison.
+
+## Reporting Bugs 🐞
 
 When a bug is found, please do report it by [opening an issue at github](https://github.com/Brigade-01/Software-Engineering/issues), as already stated above.
 
-## License
+## License ✒️
 
 MIT License
 
@@ -105,7 +120,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-## Authors
+## Authors 👨🏻‍⚖️
 
 The above program is a creation of:
 
