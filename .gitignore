@@ -1,5 +1,4 @@
 .DS_Store
-.streamlit
 .venv
 .csv-test-file
 data.csv
