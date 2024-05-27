@@ -8,7 +8,8 @@ Key words: Data Mining, Data Analysis, 2D Visualization, Machine Learning
 
 ## Usage: 📈
 
-![GUI](https://github.com/Brigade-01/Software-Engineering/assets/33377581/2aa47809-6126-4557-bde2-43b5a6cbd5d3)
+![GUI](https://github.com/Greekforce1821/Software-Engineering/assets/33377581/7925b3c6-13f4-4032-8748-120d9277eb6c)
+
 
 <p align="center">Welcome Screen of the Application 🌐</p>
 
