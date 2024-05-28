@@ -127,11 +127,11 @@ The above program is a creation of:
 
 <center>
 
-| Name                  | Email                        |
-|:---------------------:|:----------------------------:|
-| Florian Dima          | inf2021044@ionio.gr          |
-| Nikolaos Balatos      | inf2021151@ionio.gr          |
-| Spyridon Eftychios Kokotos | skokotos@ionio.gr / inf2021098@ionio.gr |
+| Name                  | Registry Number              | Semester              | Email                        |
+|:---------------------:|:----------------------------:|:---------------------:|:----------------------------:|
+| Florian Dima          | inf2021044                   | 6th                   | inf2021044@ionio.gr          |
+| Nikolaos Balatos      | inf2021151                   | 6th                   | inf2021151@ionio.gr          |
+| Spyridon Eftychios Kokotos | inf2021098              | 6th                   | skokotos@ionio.gr / inf2021098@ionio.gr |
 
 </center>
 
